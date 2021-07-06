@@ -10,7 +10,6 @@ ext.versions.androidx_appcompat = '1.3.0'
 ext.versions.androidx_constraintlayout='2.0.4'
 ext.versions.androidx_lifecycle_extensions='2.2.0'
 ext.versions.androidx_lifecycle_viewmodel='2.3.1'
-ext.versions.dagger='2.5'
 //endregion sdk
 
 //region di
@@ -22,6 +21,16 @@ ext.versions.retrofit = '2.6.1'
 ext.versions.okhttp_logging = '3.12.2'
 //endregion network
 
+//region db
+ext.versions.room = '2.3.0'
+//endregion db
+
+//region utils
+ext.versions.gson = '2.8.5'
+//endregion utils
+
+versions.lifecycle = "1.1.1"
+
 def core = [:]
 core.gradle = "com.android.tools.build:gradle:$versions.gradle"
 core.kotlin_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
@@ -29,6 +38,13 @@ core.kotlin_extension = "org.jetbrains.kotlin:kotlin-android-extensions:$version
 core.kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
 core.androidx_core = "androidx.core:core-ktx:$versions.androidx_core"
 deps.core = core
+
+def lifecycle = [:]
+lifecycle.runtime = "android.arch.lifecycle:runtime:$versions.lifecycle"
+lifecycle.extensions = "android.arch.lifecycle:extensions:$versions.lifecycle"
+lifecycle.java8 = "android.arch.lifecycle:common-java8:$versions.lifecycle"
+lifecycle.compiler = "android.arch.lifecycle:compiler:$versions.lifecycle"
+deps.lifecycle = lifecycle
 
 def di = [:]
 di.dagger = "com.google.dagger:dagger:$versions.dagger"
@@ -40,5 +56,15 @@ network.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
 network.retrofit_gson = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 network.okhttp_logging = "com.squareup.okhttp3:logging-interceptor:$versions.okhttp_logging"
 deps.network = network
+
+def db = [:]
+db.room = "androidx.room:room-runtime:$versions.room"
+db.room_compiler = "androidx.room:room-compiler:$versions.room"
+db.room_coroutines = "androidx.room:room-ktx:$versions.room"
+deps.db = db
+
+def utils = [:]
+utils.gson = "com.google.code.gson:gson:$versions.gson"
+deps.utils = utils
 
 ext.deps = deps

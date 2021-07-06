@@ -1,8 +1,8 @@
-package com.example.flickrpoc
+package com.example.flickrpoc.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.flickrpoc.ui.main.MainFragment
+import com.example.flickrpoc.R
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,13 +1,18 @@
 package com.example.flickrpoc.network
 
 import androidx.lifecycle.LiveData
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.HeaderMap
-import retrofit2.http.POST
-import retrofit2.http.Url
+import com.example.flickrpoc.BuildConfig
+import com.example.flickrpoc.model.Photo
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface FlickrAPI {
-    //@POST
-    //suspend fun get(@Url endpoint: String, @HeaderMap headers: Map<String, String>, @Body payload: BodyDto): LiveData<ApiResponse<Photo>>
+    @GET("/services/rest/?method=flickr.photos.getRecent&format=json&nojsoncallback=1")
+    fun getRecent(@Query("api_key") apiKey: String = BuildConfig.API_KEY): LiveData<ApiResponse<List<Photo>>>
+
+    @GET("/services/rest/?method=flickr.photos.getPopular&format=json&nojsoncallback=1")
+    fun getPopular(@Query("api_key") apiKey: String = BuildConfig.API_KEY): LiveData<ApiResponse<List<Photo>>>
+
+    @GET("/services/rest/?method=flickr.photos.getPopular&format=json&nojsoncallback=1")
+    fun search(@Query("api_key") apiKey: String = BuildConfig.API_KEY): LiveData<ApiResponse<List<Photo>>>
 }
