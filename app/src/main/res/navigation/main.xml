@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/listFragment">
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.example.flickrpoc.ui.list.ListFragment"
+        android:label="ListFragment">
+        <action
+            android:id="@+id/showDetails"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.flickrpoc.ui.details.DetailsFragment"
+        android:label="DetailsFragment">
+        <argument
+            android:name="photoId"
+            app:argType="string" />
+    </fragment>
+</navigation>

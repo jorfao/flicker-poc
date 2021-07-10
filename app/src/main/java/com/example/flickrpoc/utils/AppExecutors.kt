@@ -1,4 +1,4 @@
-package com.example.flickrpoc
+package com.example.flickrpoc.utils
 
 import android.os.Handler
 import android.os.Looper

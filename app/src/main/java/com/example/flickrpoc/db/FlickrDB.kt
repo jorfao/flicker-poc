@@ -8,9 +8,7 @@ import com.example.flickrpoc.model.Photo
  * Main database description.
  */
 @Database(
-    entities = [
-        Photo::class
-    ],
+    entities = [Photo::class],
     version = 3,
     exportSchema = false
 )

@@ -1,6 +1,9 @@
 package com.example.flickrpoc.network
 
 object NetworkValues {
+    const val BASE_URL = "https://api.flickr.com/"
+    const val TIME_OUT_SECONDS = 60L
+
     //region flickr error codes
 
     const val TOO_MANY_TAGS = "1" // when more than 20 tags are specified in search

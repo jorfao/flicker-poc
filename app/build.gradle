@@ -7,6 +7,18 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         applicationId "com.example.flickrpoc"
         minSdkVersion 26
@@ -28,8 +40,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+
     implementation deps.core.kotlin_stdlib
     implementation deps.core.androidx_core
+    implementation deps.core.fragment_runtime
+    implementation deps.core.fragment_runtime_ktx
+
+    implementation deps.navigation.fragment_ktx
+
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -38,9 +56,14 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    kapt deps.di.dagger_compiler
-    implementation deps.di.dagger
+    implementation deps.dagger.runtime
+    implementation deps.dagger.android
+    implementation deps.dagger.android_support
+    kapt deps.dagger.android_support_compiler
+    kapt deps.dagger.compiler
+
     implementation deps.network.retrofit
+    implementation deps.network.retrofit_gson
     implementation deps.db.room
     kapt deps.db.room_compiler
     kapt deps.lifecycle.compiler

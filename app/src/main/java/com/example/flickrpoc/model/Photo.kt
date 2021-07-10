@@ -22,4 +22,7 @@ data class Photo(
 
     @field:SerializedName("title")
     val title: String = "",
+
+    @field:SerializedName("ulr")
+    val url: String = "",
 )

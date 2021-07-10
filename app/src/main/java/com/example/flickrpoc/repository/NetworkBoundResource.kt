@@ -4,7 +4,7 @@ import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.example.flickrpoc.AppExecutors
+import com.example.flickrpoc.utils.AppExecutors
 import com.example.flickrpoc.network.ApiEmptyResponse
 import com.example.flickrpoc.network.ApiErrorResponse
 import com.example.flickrpoc.network.ApiResponse

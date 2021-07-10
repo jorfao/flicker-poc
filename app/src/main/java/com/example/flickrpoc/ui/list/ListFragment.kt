@@ -1,19 +1,19 @@
-package com.example.flickrpoc.ui.main
+package com.example.flickrpoc.ui.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.flickrpoc.R
+import com.example.flickrpoc.ui.BaseFragment
 
-class MainFragment : Fragment() {
-
+class ListFragment : BaseFragment() {
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = ListFragment()
     }
 
-    // private lateinit var viewModel by viewModels()
+    private val viewModel: @JvmSuppressWildcards ListViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
