@@ -20,23 +20,23 @@ class PhotosRepository @Inject constructor(
     private val tagDAO: TagDAO,
     private val photoDAO: PhotoDAO,
 ) {
-    fun getHotListTags(forceRefresh: Boolean = false): LiveData<Resource<List<Tag>>> {
-        return object : NetworkBoundResource<List<Tag>, HotListDTO>(appExecutors) {
+    val hotListTags by lazy {
+        object : NetworkBoundResource<List<Tag>, HotListDTO>(appExecutors) {
             override fun saveCallResult(tags: HotListDTO) = tagDAO.insertTags(tags.hottags.tag.map { tag -> tag.toTag() })
 
-            override fun shouldFetch(data: List<Tag>?) = forceRefresh || data == null || data.isEmpty()
+            override fun shouldFetch(data: List<Tag>?) = data == null || data.isEmpty()
 
             override fun loadFromDb() = tagDAO.getTags()
 
             override fun createCall(): LiveData<ApiResponse<HotListDTO>> = flickrApi.getHotList()
-        }.asLiveData()
+        }
     }
 
-    fun getRecentPhotosForTag(tag: String, forceRefresh: Boolean = false): LiveData<Resource<List<Photo>>> {
+    fun getRecentPhotosForTag(tag: String): LiveData<Resource<List<Photo>>> {
         return object : NetworkBoundResource<List<Photo>, List<PhotoDTO>>(appExecutors) {
             override fun saveCallResult(photos: List<PhotoDTO>) = photoDAO.insertPhotos(photos.map { photoDTO -> photoDTO.toPhoto() })
 
-            override fun shouldFetch(data: List<Photo>?) = forceRefresh || data == null
+            override fun shouldFetch(data: List<Photo>?) = data == null || data.isEmpty()
 
             override fun loadFromDb() = photoDAO.getPhotos()
 

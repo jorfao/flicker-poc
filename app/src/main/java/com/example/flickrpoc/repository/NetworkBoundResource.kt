@@ -4,6 +4,7 @@ import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.flickrpoc.network.ApiEmptyResponse
 import com.example.flickrpoc.network.ApiErrorResponse
 import com.example.flickrpoc.network.ApiResponse
@@ -20,12 +21,16 @@ abstract class NetworkBoundResource<ResultType, RequestType>
     private val result = MediatorLiveData<Resource<ResultType>>()
 
     init {
+        fetchResource()
+    }
+
+    fun fetchResource(force: Boolean = false) {
         result.value = Resource.Loading(null)
         @Suppress("LeakingThis")
         val dbSource = loadFromDb()
         result.addSource(dbSource) { data ->
             result.removeSource(dbSource)
-            if (shouldFetch(data)) {
+            if (force || shouldFetch(data)) {
                 fetchFromNetwork(dbSource)
             } else {
                 result.addSource(dbSource) { newData ->
@@ -88,7 +93,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
 
     protected open fun onFetchFailed() {}
 
-    fun asLiveData() = result as LiveData<Resource<ResultType>>
+    fun asLiveData() = result as MutableLiveData<Resource<ResultType>>
 
     @WorkerThread
     protected open fun processResponse(response: ApiSuccessResponse<RequestType>) = response.body

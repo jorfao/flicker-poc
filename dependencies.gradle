@@ -33,6 +33,7 @@ ext.versions.gson = '2.8.5'
 versions.lifecycle = "1.1.1"
 versions.navigation = "2.3.0-alpha01"
 versions.timber = "4.7.1"
+versions.glide = "4.8.0"
 
 def core = [:]
 core.gradle = "com.android.tools.build:gradle:$versions.gradle"
@@ -87,5 +88,10 @@ navigation.ui = "androidx.navigation:navigation-ui:$versions.navigation"
 navigation.ui_ktx = "androidx.navigation:navigation-ui-ktx:$versions.navigation"
 navigation.safe_args_plugin = "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
 deps.navigation = navigation
+
+def glide = [:]
+glide.runtime = "com.github.bumptech.glide:glide:$versions.glide"
+glide.compiler = "com.github.bumptech.glide:compiler:$versions.glide"
+deps.glide = glide
 
 ext.deps = deps

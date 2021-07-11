@@ -4,18 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingComponent
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.flickrpoc.R
+import com.example.flickrpoc.binding.FragmentDataBindingComponent
 import com.example.flickrpoc.model.Tag
 import com.example.flickrpoc.network.Resource
 import com.example.flickrpoc.ui.BaseFragment
 import com.example.flickrpoc.utils.Extensions.observe
-import kotlinx.android.synthetic.main.main_fragment.text
+import com.example.flickrpoc.utils.autoCleared
+import kotlinx.android.synthetic.main.main_fragment.list
+import kotlinx.android.synthetic.main.main_fragment.swipe_refresh_layout
 
 class ListFragment : BaseFragment<ListViewModel>() {
 
     override val viewModel: ListViewModel by viewModels { viewModelFactory }
+
+    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+
+    var adapter by autoCleared<MainListAdapter>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,26 +34,31 @@ class ListFragment : BaseFragment<ListViewModel>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initTagList(viewModel)
-        // observe(viewModel.results, ::setTagText)
+        adapter = MainListAdapter(dataBindingComponent, appExecutors){ photo ->
+            //findNavController().navigate(
+                //ListFragmentDirections.showDetails(photo.id)
+            //)
+        }
+
+        list.adapter = adapter
+
+        observe(viewModel.results, ::setTagText)
+        swipe_refresh_layout.setOnRefreshListener { viewModel.refreshTags() }
     }
 
-    private fun setTagText(tags: Resource<List<Tag>>) {
-        text.text = tags.data?.map { tag -> tag.name }?.joinToString { "," }
-    }
+    private fun setTagText(resourceTags: Resource<List<Tag>>) {
+        if (resourceTags is Resource.Loading) {
+            swipe_refresh_layout.isRefreshing = true
+            return
+        }
 
-    private fun initTagList(viewModel: ListViewModel) {
-        viewModel.results.observe(
-            viewLifecycleOwner,
-            Observer { listResource ->
-                // we don't need any null checks here for the adapter since LiveData guarantees that
-                // it won't call us if fragment is stopped or not started.
-                if (listResource?.data != null) {
-                    text.text = listResource.data.map { tag -> tag.name }.joinToString ()
-                } else {
-                    text.text = "failed"
-                }
-            }
-        )
+        if (resourceTags.data != null) {
+            adapter.submitList(resourceTags.data)
+
+            //text.text = resourceTags.data.map { tag -> tag.name }.joinToString()
+        } else {
+            //text.text = "failed"
+        }
+        swipe_refresh_layout.isRefreshing = false
     }
 }

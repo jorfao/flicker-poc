@@ -7,8 +7,12 @@ import com.example.flickrpoc.network.Resource
 import com.example.flickrpoc.repository.PhotosRepository
 import javax.inject.Inject
 
-class ListViewModel @Inject constructor(photosRepository: PhotosRepository) : ViewModel() {
+class ListViewModel @Inject constructor(private val photosRepository: PhotosRepository) : ViewModel() {
 
-    val results: LiveData<Resource<List<Tag>>> = photosRepository.getHotListTags()
+    private var _results = photosRepository.hotListTags
+    val results: LiveData<Resource<List<Tag>>> = _results.asLiveData()
 
+    fun refreshTags() {
+        _results.fetchResource(true)
+    }
 }
