@@ -5,27 +5,28 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.flickrpoc.R
 import com.example.flickrpoc.databinding.TagItemBinding
 import com.example.flickrpoc.model.Photo
-import com.example.flickrpoc.model.Tag
 import com.example.flickrpoc.ui.common.DataBoundListAdapter
 import com.example.flickrpoc.utils.AppExecutors
 
 class MainListAdapter(
     private val dataBindingComponent: DataBindingComponent,
-    appExecutors: AppExecutors,
-    private val photoClickCallback: ((Photo) -> Unit)?
-) : DataBoundListAdapter<Tag, TagItemBinding>(
+    private val appExecutors: AppExecutors,
+    private val onScrollEndCallback: ((String) -> Unit)?,
+    private val photoClickCallback: ((Photo) -> Unit)?,
+) : DataBoundListAdapter<TagItemWrapper, TagItemBinding>(
     appExecutors = appExecutors,
-    diffCallback = object : DiffUtil.ItemCallback<Tag>() {
-        override fun areItemsTheSame(oldItem: Tag, newItem: Tag): Boolean {
-            return oldItem.name == newItem.name
+    diffCallback = object : DiffUtil.ItemCallback<TagItemWrapper>() {
+        override fun areItemsTheSame(oldItem: TagItemWrapper, newItem: TagItemWrapper): Boolean {
+            return oldItem.tagName == newItem.tagName
         }
 
-        override fun areContentsTheSame(oldItem: Tag, newItem: Tag): Boolean {
-            // TODO compare photos
-            return oldItem.name == newItem.name
+        override fun areContentsTheSame(oldItem: TagItemWrapper, newItem: TagItemWrapper): Boolean {
+            return oldItem.tagName == newItem.tagName
         }
     }
 ) {
@@ -38,16 +39,24 @@ class MainListAdapter(
             false,
             dataBindingComponent
         )
-        /*
-        binding.root.setOnClickListener {
-            binding.tag?.let {
-                repoClickCallback?.invoke(it)
-            }
-        }*/
+
         return binding
     }
 
-    override fun bind(binding: TagItemBinding, item: Tag) {
-        binding.tag = item
+    override fun bind(binding: TagItemBinding, item: TagItemWrapper) {
+        binding.tagItemWrapper = item
+
+        val innerAdapter = PhotoListAdapter(dataBindingComponent, appExecutors, photoClickCallback)
+
+        binding.photoList.adapter = PhotoListAdapter(dataBindingComponent, appExecutors, photoClickCallback)
+        binding.photoList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val lastPosition = layoutManager.findLastVisibleItemPosition()
+                if (lastPosition == innerAdapter.itemCount - 1) {
+                    onScrollEndCallback?.invoke(item.tagName)
+                }
+            }
+        })
     }
 }

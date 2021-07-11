@@ -17,4 +17,7 @@ interface PhotoDAO {
 
     @Query("SELECT * FROM photo")
     fun getPhotos(): LiveData<List<Photo>>
+
+    @Query("SELECT * FROM photo WHERE tag = :tag")
+    fun getPhotos(tag: String): LiveData<List<Photo>>
 }

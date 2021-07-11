@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.flickrpoc.ui.details.DetailsViewModel
 import com.example.flickrpoc.ui.list.ListViewModel
-import com.example.flickrpoc.ui.list.TagItemViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -16,11 +15,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ListViewModel::class)
     abstract fun bindListViewModel(listViewModel: ListViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(TagItemViewModel::class)
-    abstract fun bindTagItemViewModel(tagItemViewModel: TagItemViewModel): ViewModel
 
     @Binds
     @IntoMap

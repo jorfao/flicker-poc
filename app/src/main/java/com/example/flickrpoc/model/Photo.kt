@@ -25,4 +25,7 @@ data class Photo(
 
     @field:SerializedName("url")
     val url: String = "",
+
+    @field:SerializedName("tag")
+    val tag: String = "",
 )
