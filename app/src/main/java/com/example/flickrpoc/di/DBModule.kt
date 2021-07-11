@@ -20,4 +20,8 @@ class DBModule {
     @Singleton
     @Provides
     fun providesPhotoDAO(db: FlickrDB) = db.photoDAO()
+
+    @Singleton
+    @Provides
+    fun providesTagDAO(db: FlickrDB) = db.tagDAO()
 }

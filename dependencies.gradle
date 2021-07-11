@@ -32,6 +32,7 @@ ext.versions.gson = '2.8.5'
 
 versions.lifecycle = "1.1.1"
 versions.navigation = "2.3.0-alpha01"
+versions.timber = "4.7.1"
 
 def core = [:]
 core.gradle = "com.android.tools.build:gradle:$versions.gradle"
@@ -73,6 +74,8 @@ deps.db = db
 def utils = [:]
 utils.gson = "com.google.code.gson:gson:$versions.gson"
 deps.utils = utils
+
+deps.timber = "com.jakewharton.timber:timber:$versions.timber"
 
 def navigation = [:]
 navigation.runtime = "androidx.navigation:navigation-runtime:$versions.navigation"

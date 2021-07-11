@@ -1,27 +1,42 @@
 package com.example.flickrpoc.repository
 
 import androidx.lifecycle.LiveData
-import com.example.flickrpoc.utils.AppExecutors
 import com.example.flickrpoc.BuildConfig
 import com.example.flickrpoc.db.PhotoDAO
+import com.example.flickrpoc.db.TagDAO
 import com.example.flickrpoc.model.Photo
+import com.example.flickrpoc.model.Tag
 import com.example.flickrpoc.network.ApiResponse
 import com.example.flickrpoc.network.FlickrAPI
+import com.example.flickrpoc.network.HotListDTO
 import com.example.flickrpoc.network.PhotoDTO
 import com.example.flickrpoc.network.Resource
-import com.example.flickrpoc.utils.Extensions.toPhoto
+import com.example.flickrpoc.utils.AppExecutors
 import javax.inject.Inject
 
 class PhotosRepository @Inject constructor(
     private val appExecutors: AppExecutors,
     private val flickrApi: FlickrAPI,
+    private val tagDAO: TagDAO,
     private val photoDAO: PhotoDAO,
 ) {
-    fun getRecentPhotos(): LiveData<Resource<List<Photo>>> {
+    fun getHotListTags(forceRefresh: Boolean = false): LiveData<Resource<List<Tag>>> {
+        return object : NetworkBoundResource<List<Tag>, HotListDTO>(appExecutors) {
+            override fun saveCallResult(tags: HotListDTO) = tagDAO.insertTags(tags.hottags.tag.map { tag -> tag.toTag() })
+
+            override fun shouldFetch(data: List<Tag>?) = forceRefresh || data == null || data.isEmpty()
+
+            override fun loadFromDb() = tagDAO.getTags()
+
+            override fun createCall(): LiveData<ApiResponse<HotListDTO>> = flickrApi.getHotList()
+        }.asLiveData()
+    }
+
+    fun getRecentPhotosForTag(tag: String, forceRefresh: Boolean = false): LiveData<Resource<List<Photo>>> {
         return object : NetworkBoundResource<List<Photo>, List<PhotoDTO>>(appExecutors) {
             override fun saveCallResult(photos: List<PhotoDTO>) = photoDAO.insertPhotos(photos.map { photoDTO -> photoDTO.toPhoto() })
 
-            override fun shouldFetch(data: List<Photo>?) = data == null
+            override fun shouldFetch(data: List<Photo>?) = forceRefresh || data == null
 
             override fun loadFromDb() = photoDAO.getPhotos()
 

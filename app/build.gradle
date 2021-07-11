@@ -72,4 +72,7 @@ dependencies {
     implementation deps.lifecycle.runtime
     implementation deps.lifecycle.extensions
     implementation deps.lifecycle.java8
+
+    implementation deps.timber
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 }

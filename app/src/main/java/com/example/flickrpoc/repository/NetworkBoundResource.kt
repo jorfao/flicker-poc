@@ -4,12 +4,13 @@ import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.example.flickrpoc.utils.AppExecutors
 import com.example.flickrpoc.network.ApiEmptyResponse
 import com.example.flickrpoc.network.ApiErrorResponse
 import com.example.flickrpoc.network.ApiResponse
 import com.example.flickrpoc.network.ApiSuccessResponse
 import com.example.flickrpoc.network.Resource
+import com.example.flickrpoc.utils.AppExecutors
+import timber.log.Timber
 
 // ResultType: Type for the Resource data.
 // RequestType: Type for the API response.
@@ -50,6 +51,9 @@ abstract class NetworkBoundResource<ResultType, RequestType>
         result.addSource(apiResponse) { response ->
             result.removeSource(apiResponse)
             result.removeSource(dbSource)
+
+            Timber.d(response.toString())
+
             when (response) {
                 is ApiSuccessResponse -> {
                     appExecutors.diskIO().execute {

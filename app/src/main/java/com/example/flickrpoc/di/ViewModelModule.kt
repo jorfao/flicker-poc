@@ -22,5 +22,5 @@ abstract class ViewModelModule {
     abstract fun bindDetailsViewModel(detailsViewModel: DetailsViewModel): ViewModel
 
     @Binds
-    abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+    abstract fun bindViewModelFactory(factory: FlickrViewModelFactory): ViewModelProvider.Factory
 }

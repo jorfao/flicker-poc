@@ -1,8 +1,10 @@
 package com.example.flickrpoc.network
 
+import com.example.flickrpoc.model.Photo
+import com.example.flickrpoc.utils.Values.IMAGE_URL
 import com.google.gson.annotations.SerializedName
 
-data class PhotoDTO(
+class PhotoDTO(
     @SerializedName("id")
     val id: String = "",
 
@@ -20,4 +22,15 @@ data class PhotoDTO(
 
     @SerializedName("title")
     val title: String = "",
-)
+
+    @SerializedName("ispublic")
+    val ispublic: Int = 0,
+
+    @SerializedName("isfriend")
+    val isfriend: Int = 0,
+
+    @SerializedName("isfamily")
+    val isfamily: Int = 0,
+) {
+    fun toPhoto() = Photo(this.id, this.owner, this.secret, this.server, this.farm, this.title, IMAGE_URL.format(this.farm, this.server, this.id, this.secret))
+}

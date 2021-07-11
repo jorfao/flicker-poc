@@ -8,8 +8,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 @Module
@@ -18,14 +20,10 @@ class NetworkModule {
     @Reusable
     @Provides
     fun providesOkHttpClient(): OkHttpClient {
-        // TODO add network logging
-        // val httpLoggingInterceptor = HttpLoggingInterceptor()
-        // httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient.Builder()
             .connectTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
             .readTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
-            .build()
-        // .addInterceptor(httpLoggingInterceptor).build()
+            .addInterceptor(HttpLoggingInterceptor { message -> Timber.tag("OkHttp").d(message) }.setLevel(HttpLoggingInterceptor.Level.BASIC)).build()
     }
 
     @Reusable
