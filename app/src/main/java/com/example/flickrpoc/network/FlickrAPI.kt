@@ -20,5 +20,5 @@ interface FlickrAPI {
     fun search(@Query("api_key") apiKey: String = BuildConfig.API_KEY): LiveData<ApiResponse<List<PhotoDTO>>>
 
     @GET("/services/rest/?method=flickr.photos.getExif&format=json&nojsoncallback=1")
-    fun getPhotoExif(@Query("api_key") apiKey: String = BuildConfig.API_KEY, @Query("photo_id") photoId: String): LiveData<ApiResponse<PhotoDetailsDTO>>
+    fun getPhotoExif(@Query("api_key") apiKey: String = BuildConfig.API_KEY, @Query("photo_id") photoId: String): LiveData<ApiResponse<PhotoDetailsDTO?>>
 }

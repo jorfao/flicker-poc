@@ -52,8 +52,21 @@ class ListFragment : BaseFragment<ListViewModel>() {
 
         list.adapter = adapter
 
+        swipe_refresh_layout.isRefreshing = true
+
         observe(viewModel.results, ::setTags)
+        observe(viewModel.listResult, ::setList)
         swipe_refresh_layout.setOnRefreshListener { viewModel.refreshTags() }
+    }
+
+    private fun setList(list: Resource<List<TagItemWrapper>>) {
+        if (list.status == Status.LOADING) {
+            swipe_refresh_layout.isRefreshing = true
+            return
+        }
+
+        adapter.submitList(list.data)
+        swipe_refresh_layout.isRefreshing = false
     }
 
     private fun setTags(resourceTags: Resource<List<Tag>>) {
@@ -61,32 +74,6 @@ class ListFragment : BaseFragment<ListViewModel>() {
             swipe_refresh_layout.isRefreshing = true
             return
         }
-
-        if (resourceTags.data != null) {
-
-            resourceTags.data.forEach { tag ->
-                observe(viewModel.getPhotosForTag(tag.name), ::setPhotos)
-            }
-
-            adapter.submitList(
-                resourceTags.data.map { tag ->
-                    TagItemWrapper(tagName = tag.name, mutableListOf())
-                }
-            )
-        }
-        swipe_refresh_layout.isRefreshing = false
-    }
-
-    private fun setPhotos(resourceTagPage: Resource<TagItemWrapper>) {
-        if (resourceTagPage.status != Status.SUCCESS) {
-            return
-        }
-
-        if (resourceTagPage.data != null) {
-            val currentList = adapter.currentList.toMutableList()
-            val tagPage = resourceTagPage.data
-            adapter.submitList(null)
-            adapter.submitList(currentList.also { it.find { tag -> tag.tagName == tagPage.tagName }?.apply { photos = tagPage.photos } })
-        }
+        viewModel.getTagPhotos()
     }
 }

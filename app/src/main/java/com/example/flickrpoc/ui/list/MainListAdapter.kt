@@ -22,15 +22,11 @@ class MainListAdapter(
     appExecutors = appExecutors,
     diffCallback = object : DiffUtil.ItemCallback<TagItemWrapper>() {
         override fun areItemsTheSame(oldItem: TagItemWrapper, newItem: TagItemWrapper): Boolean {
-            return oldItem.tagName == newItem.tagName && oldItem.photos == newItem.photos
+            return oldItem.tagName == newItem.tagName
         }
 
         override fun areContentsTheSame(oldItem: TagItemWrapper, newItem: TagItemWrapper): Boolean {
             return oldItem.photos == newItem.photos
-        }
-
-        override fun getChangePayload(oldItem: TagItemWrapper, newItem: TagItemWrapper): Any? {
-            return oldItem.apply { this.photos = newItem.photos }
         }
     }
 ) {

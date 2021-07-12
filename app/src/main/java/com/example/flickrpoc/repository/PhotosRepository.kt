@@ -74,13 +74,15 @@ class PhotosRepository @Inject constructor(
     }
 
     fun getPhotoDetails(photoId: String) =
-        object : NetworkBoundResource<PhotoDetails, PhotoDetailsDTO>(appExecutors) {
-            override fun saveCallResult(details: PhotoDetailsDTO) = flickerDB.photoDAO().insertPhotoDetails(details.toPhotoDetails())
+        object : NetworkBoundResource<PhotoDetails, PhotoDetailsDTO?>(appExecutors) {
+            override fun saveCallResult(details: PhotoDetailsDTO?) {
+                details?.photo?.run { flickerDB.photoDAO().insertPhotoDetails(details.toPhotoDetails()) }
+            }
 
             override fun shouldFetch(data: PhotoDetails?) = data == null
 
             override fun loadFromDb() = flickerDB.photoDAO().getPhotoDetails(photoId)
 
-            override fun createCall(): LiveData<ApiResponse<PhotoDetailsDTO>> = flickrApi.getPhotoExif(photoId = photoId)
+            override fun createCall(): LiveData<ApiResponse<PhotoDetailsDTO?>> = flickrApi.getPhotoExif(photoId = photoId)
         }.asLiveData()
 }
