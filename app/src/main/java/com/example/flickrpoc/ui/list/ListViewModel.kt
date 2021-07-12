@@ -24,6 +24,7 @@ class ListViewModel @Inject constructor(private val photosRepository: PhotosRepo
     private val tagPhotosHandlerMap: ConcurrentHashMap<String, NextTagPageHandler> = ConcurrentHashMap()
 
     fun refreshTags() {
+        tagItemWrapperSet.clear()
         _results.fetchResource(true)
     }
 
@@ -31,7 +32,7 @@ class ListViewModel @Inject constructor(private val photosRepository: PhotosRepo
         _results.asLiveData().value?.data?.forEach {
             _listResult.addSource(photosRepository.getRecentPhotosForTag(it.name)) { result ->
                 if (result.status == Status.SUCCESS && result.data != null) {
-                    val tagPhotos = result.data!!
+                    val tagPhotos: TagItemWrapper = result.data
 
                     val tagItemWrapper = tagItemWrapperSet.find { item -> item.tagName == tagPhotos.tagName }
                         ?.apply { this.photos = tagPhotos.photos } ?: tagPhotos
