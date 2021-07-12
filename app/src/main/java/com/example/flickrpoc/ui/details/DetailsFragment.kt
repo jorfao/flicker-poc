@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -16,6 +17,7 @@ import com.example.flickrpoc.network.Resource
 import com.example.flickrpoc.ui.BaseFragment
 import com.example.flickrpoc.utils.Extensions.observe
 import com.example.flickrpoc.utils.autoCleared
+import kotlinx.android.synthetic.main.details_fragment.view.container
 
 class DetailsFragment : BaseFragment<DetailsViewModel>() {
     override val viewModel: DetailsViewModel by viewModels { viewModelFactory }
@@ -47,6 +49,11 @@ class DetailsFragment : BaseFragment<DetailsViewModel>() {
     private fun setDetails(details: Resource<PhotoDetails>) {
         if (details.data != null) {
             binding.photoDetails = viewModel.details
+            binding.root.container.removeAllViews()
+
+            details.data.exif.forEach { detail ->
+                binding.root.container.addView(TextView(requireContext()).apply { this.text = detail.first + ": " + detail.second })
+            }
         }
     }
 }

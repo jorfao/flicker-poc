@@ -21,21 +21,30 @@
          android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<ImageView
-    android:id="@+id/image"
-    android:layout_width="match_parent"
-    android:layout_height="120dp"
-    app:imageUrl="@{photoDetails.data.url}"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
-        <TextView
-            android:text="@{photoDetails.data.exif.toString()}"
+        <ImageView
+            android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/image"
+            android:maxHeight="250dp"
+            app:imageUrl="@{photoDetails.data.url}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" >
+            <tag android:id="@+id/zoomable" android:value="ZoomableViewTag" />
+        </ImageView>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image" >
+            <LinearLayout
+                android:id="@id/container"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </ScrollView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
