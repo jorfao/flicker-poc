@@ -31,7 +31,7 @@ class PhotoListAdapter(
     override fun createBinding(parent: ViewGroup): PhotoItemBinding {
         val binding = DataBindingUtil.inflate<PhotoItemBinding>(
             LayoutInflater.from(parent.context),
-            R.layout.tag_item,
+            R.layout.photo_item,
             parent,
             false,
             dataBindingComponent
@@ -47,6 +47,5 @@ class PhotoListAdapter(
 
     override fun bind(binding: PhotoItemBinding, item: Photo) {
         binding.photo = item
-        // binding.name = item.title
     }
 }

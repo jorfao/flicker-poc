@@ -22,11 +22,15 @@ class MainListAdapter(
     appExecutors = appExecutors,
     diffCallback = object : DiffUtil.ItemCallback<TagItemWrapper>() {
         override fun areItemsTheSame(oldItem: TagItemWrapper, newItem: TagItemWrapper): Boolean {
-            return oldItem.tagName == newItem.tagName
+            return oldItem.tagName == newItem.tagName && oldItem.photos == newItem.photos
         }
 
         override fun areContentsTheSame(oldItem: TagItemWrapper, newItem: TagItemWrapper): Boolean {
-            return oldItem.tagName == newItem.tagName
+            return oldItem.photos == newItem.photos
+        }
+
+        override fun getChangePayload(oldItem: TagItemWrapper, newItem: TagItemWrapper): Any? {
+            return oldItem.apply { this.photos = newItem.photos }
         }
     }
 ) {
@@ -47,8 +51,11 @@ class MainListAdapter(
         binding.tagItemWrapper = item
 
         val innerAdapter = PhotoListAdapter(dataBindingComponent, appExecutors, photoClickCallback)
+        innerAdapter.submitList(item.photos)
 
-        binding.photoList.adapter = PhotoListAdapter(dataBindingComponent, appExecutors, photoClickCallback)
+        binding.photoList.adapter = innerAdapter
+
+        /* TODO Add paging
         binding.photoList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
@@ -58,5 +65,6 @@ class MainListAdapter(
                 }
             }
         })
+         */
     }
 }

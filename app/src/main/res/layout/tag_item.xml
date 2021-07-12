@@ -7,6 +7,10 @@
         <variable
             name="tagItemWrapper"
             type="com.example.flickrpoc.ui.list.TagItemWrapper" />
+
+        <variable
+            name="loadingMore"
+            type="boolean" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -33,7 +37,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/photoList"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="LinearLayoutManager"
                 android:orientation="horizontal"

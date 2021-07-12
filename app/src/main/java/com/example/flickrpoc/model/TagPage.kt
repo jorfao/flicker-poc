@@ -9,5 +9,5 @@ data class TagPage(
     val pages: Int,
     val perpage: Int,
     val total: Int = 0,
-    val photos: List<Int>,
+    val photos: List<String>,
 )

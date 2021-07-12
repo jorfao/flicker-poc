@@ -21,7 +21,7 @@ class PhotoDTO(
     val farm: Int = 0,
 
     @SerializedName("title")
-    val title: String = "",
+    val title: String? = "",
 
     @SerializedName("ispublic")
     val ispublic: Int = 0,
@@ -31,6 +31,9 @@ class PhotoDTO(
 
     @SerializedName("isfamily")
     val isfamily: Int = 0,
+
+    @SerializedName("exif") val exif: List<ExifDTO>?
 ) {
-    fun toPhoto() = Photo(this.id, this.owner, this.secret, this.server, this.farm, this.title, IMAGE_URL.format(this.farm, this.server, this.id, this.secret))
+    fun toPhoto(tagName: String = "") =
+        Photo(this.id, this.owner, this.secret, this.server, this.farm, this.title ?: "", IMAGE_URL.format(this.farm, this.server, this.id, this.secret), tagName)
 }

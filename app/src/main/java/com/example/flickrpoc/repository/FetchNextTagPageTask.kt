@@ -42,10 +42,10 @@ class FetchNextTagPageTask constructor(
                 is ApiSuccessResponse -> {
                     // we merge all repo ids into 1 list so that it is easier to fetch the
                     // result list.
-                    val parsedPhotos = apiResponse.body.photos.photo.map { it.toPhoto() }
-                    val photos = arrayListOf<Int>()
+                    val parsedPhotos = apiResponse.body.photos.photo.map { it.toPhoto(tag) }
+                    val photos = arrayListOf<String>()
                     photos.addAll(current.photos)
-                    photos.addAll(parsedPhotos.map { Integer.parseInt(it.id) })
+                    photos.addAll(parsedPhotos.map { it.id })
 
                     val merged = TagPage(
                         current.tag,

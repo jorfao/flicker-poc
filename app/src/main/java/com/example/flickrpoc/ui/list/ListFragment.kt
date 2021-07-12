@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingComponent
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.flickrpoc.R
 import com.example.flickrpoc.binding.FragmentDataBindingComponent
 import com.example.flickrpoc.model.Tag
-import com.example.flickrpoc.model.TagPage
 import com.example.flickrpoc.network.Resource
 import com.example.flickrpoc.network.Status
 import com.example.flickrpoc.ui.BaseFragment
@@ -39,15 +39,14 @@ class ListFragment : BaseFragment<ListViewModel>() {
         adapter = MainListAdapter(
             dataBindingComponent, appExecutors,
             { tag ->
-                // get next page results
+                // TODO implement get next page results
                 Timber.d("Load more for $tag")
             },
             { photo ->
-                // show details
                 Timber.d("Photo $photo.id clicked!")
-                // findNavController().navigate(
-                // ListFragmentDirections.showDetails(photo.id)
-                // )
+                findNavController().navigate(
+                    ListFragmentDirections.showDetails(photo.id)
+                )
             }
         )
 
@@ -78,24 +77,16 @@ class ListFragment : BaseFragment<ListViewModel>() {
         swipe_refresh_layout.isRefreshing = false
     }
 
-    private fun setPhotos(resourceTagPage: Resource<TagPage?>){
+    private fun setPhotos(resourceTagPage: Resource<TagItemWrapper>) {
+        if (resourceTagPage.status != Status.SUCCESS) {
+            return
+        }
+
         if (resourceTagPage.data != null) {
             val currentList = adapter.currentList.toMutableList()
             val tagPage = resourceTagPage.data
-
-            val tagItemWrapper = currentList.find{tag -> tag.tagName == tagPage.tag}
-/*
-            if(tagItemWrapper != null){
-                tagItemWrapper.photos.addAll(tagPage.photos.)
-                resourceTagPage.data.map { tag ->
-                    TagItemWrapper(tagName = tag.name, emptyList())
-                }
-            }
-            (
-                resourceTagPage.data.map { tag ->
-                    TagItemWrapper(tagName = tag.name, emptyList())
-                }
-            )*/
+            adapter.submitList(null)
+            adapter.submitList(currentList.also { it.find { tag -> tag.tagName == tagPage.tagName }?.apply { photos = tagPage.photos } })
         }
     }
 }

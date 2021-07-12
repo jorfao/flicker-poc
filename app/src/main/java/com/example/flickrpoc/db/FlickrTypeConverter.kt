@@ -1,27 +1,27 @@
 package com.example.flickrpoc.db
 
 import androidx.room.TypeConverter
-import timber.log.Timber
 
 object FlickrTypeConverter {
     @TypeConverter
     @JvmStatic
-    fun stringToIntList(data: String?): List<Int>? {
+    fun stringToStringList(data: String?): List<String>? {
         return data?.let {
-            it.split(",").map {
-                try {
-                    it.toInt()
-                } catch (ex: NumberFormatException) {
-                    Timber.e(ex, "Cannot convert $it to number")
-                    null
-                }
-            }
-        }?.filterNotNull()
+            it.split(",")
+        }
     }
 
     @TypeConverter
     @JvmStatic
-    fun intListToString(ints: List<Int>?): String? {
-        return ints?.joinToString(",")
+    fun stringListToString(strings: List<String>?): String? {
+        return strings?.joinToString(",")
     }
+
+    @TypeConverter
+    @JvmStatic
+    fun stringToStringPairList(data: String?): List<Pair<String, String>>? = data?.split(",")?.map { Pair(it.substringBefore('|'), it.substringAfter('|')) }
+
+    @TypeConverter
+    @JvmStatic
+    fun stringPairListToString(pairs: List<Pair<String, String>>?) = pairs?.joinToString(",") { it.first + "|" + it.second }
 }
