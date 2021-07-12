@@ -13,6 +13,8 @@ This project was developed in [kotlin](https://kotlinlang.org) and uses the foll
 * [Dagger 2](https://dagger.dev) for dependency injection
 * [Room](https://developer.android.com/jetpack/androidx/releases/room) for data persistence
 * [Retrofit](https://square.github.io/retrofit/) for network calls
+* [Timber](https://github.com/JakeWharton/timber) for logging
+* [ZoomHelper](https://github.com/Aghajari/ZoomHelper) for pinch to zoom
 	
 ## Setup
 To run this project, just clone the repo and set your api key and secret in the gradle.properties file.
