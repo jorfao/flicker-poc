@@ -25,12 +25,12 @@ class HotListDTO {
         val _content: String = "",
 
         @SerializedName("thm_data")
-        val thm_data: Thm_data,
+        val thm_data: ThmData,
     ) {
         fun toTag() = com.example.flickrpoc.model.Tag(this._content)
     }
 
-    data class Thm_data(
+    data class ThmData(
         @SerializedName("photos")
         val photos: Photos,
     )

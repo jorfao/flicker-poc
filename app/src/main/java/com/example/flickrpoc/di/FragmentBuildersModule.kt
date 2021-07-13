@@ -1,6 +1,5 @@
 package com.example.flickrpoc.di
 
-import com.example.flickrpoc.ui.BaseFragment
 import com.example.flickrpoc.ui.details.DetailsFragment
 import com.example.flickrpoc.ui.list.ListFragment
 import dagger.Module

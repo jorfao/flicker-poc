@@ -20,11 +20,11 @@ interface TagDAO {
     fun getTags(): LiveData<List<Tag>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(tagPage: TagPage)
+    fun insert(tagPage: TagPage)
 
     @Query("SELECT * FROM TagPage WHERE `tag` = :tag")
     fun getTagPages(tag: String): LiveData<TagPage?>
 
     @Query("SELECT * FROM TagPage WHERE `tag` = :tag")
-    abstract fun findTagPage(tag: String): TagPage?
+    fun findTagPage(tag: String): TagPage?
 }

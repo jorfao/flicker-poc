@@ -5,17 +5,11 @@ import androidx.room.TypeConverter
 object FlickrTypeConverter {
     @TypeConverter
     @JvmStatic
-    fun stringToStringList(data: String?): List<String>? {
-        return data?.let {
-            it.split(",")
-        }
-    }
+    fun stringToStringList(data: String?) = data?.split(",")
 
     @TypeConverter
     @JvmStatic
-    fun stringListToString(strings: List<String>?): String? {
-        return strings?.joinToString(",")
-    }
+    fun stringListToString(strings: List<String>?) = strings?.joinToString(",")
 
     @TypeConverter
     @JvmStatic

@@ -5,8 +5,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.flickrpoc.R
 import com.example.flickrpoc.databinding.TagItemBinding
 import com.example.flickrpoc.model.Photo
@@ -31,17 +29,14 @@ class MainListAdapter(
     }
 ) {
 
-    override fun createBinding(parent: ViewGroup): TagItemBinding {
-        val binding = DataBindingUtil.inflate<TagItemBinding>(
+    override fun createBinding(parent: ViewGroup): TagItemBinding =
+        DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             R.layout.tag_item,
             parent,
             false,
             dataBindingComponent
         )
-
-        return binding
-    }
 
     override fun bind(binding: TagItemBinding, item: TagItemWrapper) {
         binding.tagItemWrapper = item

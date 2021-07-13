@@ -49,15 +49,16 @@ dependencies {
 
     implementation deps.navigation.fragment_ktx
 
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation deps.utils.appcompat
+    implementation deps.utils.constraintlayout
+    implementation deps.utils.lifecycle_extensions
+    implementation deps.utils.lifecycle_viewmodel
+    implementation deps.utils.recyclerview
+    implementation deps.utils.cardview
+
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation deps.dagger.runtime
     implementation deps.dagger.android
@@ -67,6 +68,7 @@ dependencies {
 
     implementation deps.network.retrofit
     implementation deps.network.retrofit_gson
+    implementation deps.network.okhttp_logging
     implementation deps.db.room
     kapt deps.db.room_compiler
     kapt deps.lifecycle.compiler
@@ -77,10 +79,9 @@ dependencies {
     implementation deps.lifecycle.java8
 
     implementation deps.timber
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
+    implementation deps.utils.swipelayout
     implementation deps.glide.runtime
 
-    implementation 'com.aghajari.zoomhelper:ZoomHelper:1.0.1'
+    implementation deps.utils.zoom
 
 }
